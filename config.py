@@ -15,7 +15,7 @@ class Config:
                     # a+ opens file or creates it, but the stream is positioned at the end
                     with open(self.path, 'a+') as f:
                         f.seek(0)
-                        Config._conf_per_path[self.path] = yaml.load(f.read()) or {}
+                        Config._conf_per_path[self.path] = yaml.load(f) or {}
             return Config._conf_per_path[self.path]
 
     def get(self, key, default):
@@ -39,4 +39,4 @@ class Config:
     def _write_conf(self):
         with Config._lock:
             with open(self.path, 'w') as f:
-                f.write(yaml.dump(self._conf()))
+                yaml.dump(self._conf(), f)
